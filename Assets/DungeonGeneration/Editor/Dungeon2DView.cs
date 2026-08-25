@@ -75,12 +75,13 @@ public class Dungeon2DView : VisualElement
         }
     }
 
-    private Color GetTileColor(int tile)
+    private Color GetTileColor(Dungeon2DTile tile)
     {
         return tile switch
         {
-            0 => new Color(0.15f, 0.15f, 0.15f),
-            1 => new Color(0.8f, 0.8f, 0.8f),
+            Dungeon2DTile.Empty => new Color(0.15f, 0.15f, 0.15f),
+            Dungeon2DTile.Hallway => new Color(0.8f, 0.8f, 0.8f),
+            Dungeon2DTile.Room => new Color(0.8f, 0f, 0f),
             _ => Color.magenta
         };
     }
@@ -140,7 +141,7 @@ public class Dungeon2DView : VisualElement
 
         Undo.RecordObject(dungeon, "Paint Dungeon Tile");
 
-        dungeon[x, y] = dungeon[x, y] == 0 ? 1 : 0;
+        dungeon[x, y] = dungeon[x, y] == Dungeon2DTile.Empty ? Dungeon2DTile.Hallway : Dungeon2DTile.Empty;
 
         EditorUtility.SetDirty(dungeon);
         MarkDirtyRepaint();
