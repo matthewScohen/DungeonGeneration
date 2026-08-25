@@ -30,7 +30,7 @@ public class Dungeon2D : ScriptableObject
         get 
         {
             int index = y * Width + x;
-            return (index >= 0 && index < tileMap.Length) ? tileMap[index] : 0;
+            return (index >= 0 && index < tileMap.Length) ? tileMap[index] : -1;
         }
         set 
         {

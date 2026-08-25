@@ -4,21 +4,48 @@ using UnityEngine.UIElements;
 
 public class Dungeon2DEditorWindow : EditorWindow
 {
-    [MenuItem("Window/UI Toolkit/Dungeon2DEditorWindow")]
-    public static void ShowExample()
+    private Dungeon2D dungeon;
+    private Dungeon2DView dungeon2DView;
+
+    public static void ShowWindow(Dungeon2D dungeon)
     {
-        Dungeon2DEditorWindow wnd = GetWindow<Dungeon2DEditorWindow>();
-        wnd.titleContent = new GUIContent("Dungeon2DEditorWindow");
+        Dungeon2DEditorWindow window = GetWindow<Dungeon2DEditorWindow>();
+
+        window.titleContent = new GUIContent("Dungeon 2D Editor");
+        window.dungeon = dungeon;
+
+        window.Refresh();
     }
 
-    public void CreateGUI()
+    private void CreateGUI()
     {
-        // Each editor window contains a root VisualElement object
-        VisualElement root = rootVisualElement;
+        ScrollView scrollView = new();
 
-        // VisualElements objects can contain other VisualElement following a tree hierarchy.
-        VisualElement label = new Label("Hello World! From C#");
-        root.Add(label);
+        dungeon2DView = new();
+        dungeon2DView.SetDungeon(dungeon);
 
+        scrollView.Add(dungeon2DView);
+        rootVisualElement.Add(scrollView);
+    }
+
+    private void OnEnable()
+    {
+        Undo.undoRedoPerformed += OnUndoRedo;
+    }
+
+    private void OnDisable()
+    {
+        Undo.undoRedoPerformed -= OnUndoRedo;
+        AssetDatabase.SaveAssetIfDirty(dungeon);
+    }
+
+    private void OnUndoRedo()
+    {
+        dungeon2DView?.Refresh();
+    }
+
+    private void Refresh()
+    {
+        dungeon2DView.SetDungeon(dungeon);
     }
 }

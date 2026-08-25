@@ -1,16 +1,18 @@
 using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEngine.UIElements;
+using UnityEngine;
 
 [CustomEditor(typeof(Dungeon2D))]
 public class Dungeon2DEditor : Editor
 {
-    public override VisualElement CreateInspectorGUI()
+    public override void OnInspectorGUI()
     {
-        VisualElement myInspector = new();
+        DrawDefaultInspector();
 
-        myInspector.Add(new Label("This is a custom Inspector"));
+        GUILayout.Space(10);
 
-        return myInspector;
+        if (GUILayout.Button("Open Dungeon Editor", GUILayout.Height(30)))
+        {
+            Dungeon2DEditorWindow.ShowWindow((Dungeon2D)target);
+        }
     }
 }
