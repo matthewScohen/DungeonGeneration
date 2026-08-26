@@ -6,7 +6,7 @@ public class Dungeon2DView : VisualElement
 {
     private const float BaseTileSize = 32f;
 
-    private Dungeon2D dungeon;
+    private Dungeon2DGenerator dungeon;
 
     private const float MinZoom = 0.25f;
     private const float MaxZoom = 4f;
@@ -25,7 +25,7 @@ public class Dungeon2DView : VisualElement
         RegisterCallback<WheelEvent>(OnWheel);
     }
 
-    public void SetDungeon(Dungeon2D dungeon)
+    public void SetDungeon(Dungeon2DGenerator dungeon)
     {
         this.dungeon = dungeon;
         Refresh();
@@ -79,7 +79,7 @@ public class Dungeon2DView : VisualElement
     {
         return tile switch
         {
-            Dungeon2DTile.Empty => new Color(0.15f, 0.15f, 0.15f),
+            Dungeon2DTile.Wall => new Color(0.15f, 0.15f, 0.15f),
             Dungeon2DTile.Hallway => new Color(0.8f, 0.8f, 0.8f),
             Dungeon2DTile.Room => new Color(0.8f, 0f, 0f),
             _ => Color.magenta
@@ -141,7 +141,7 @@ public class Dungeon2DView : VisualElement
 
         Undo.RecordObject(dungeon, "Paint Dungeon Tile");
 
-        dungeon[x, y] = dungeon[x, y] == Dungeon2DTile.Empty ? Dungeon2DTile.Hallway : Dungeon2DTile.Empty;
+        dungeon[x, y] = dungeon[x, y] == Dungeon2DTile.Wall ? Dungeon2DTile.Hallway : Dungeon2DTile.Wall;
 
         EditorUtility.SetDirty(dungeon);
         MarkDirtyRepaint();

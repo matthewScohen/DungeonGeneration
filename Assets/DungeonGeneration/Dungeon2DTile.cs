@@ -1,7 +1,7 @@
 public enum Dungeon2DTile
 {
     Invalid = -1,
-    Empty,
+    Wall,
     Hallway,
     Room,
 }
