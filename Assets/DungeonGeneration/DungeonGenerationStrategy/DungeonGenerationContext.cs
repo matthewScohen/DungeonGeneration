@@ -10,8 +10,12 @@
             Random.InitState(seed);
         }
 
-        public void PlaceRandomRooms(int numberOfPlacementsToAttempt, int maxRoomWidth, int maxRoomHeight, int minRoomWidth = 1, int minRoomHeight = 1)
+        public void PlaceRandomRooms(int numberOfPlacementsToAttempt, int maxRoomWidth, int maxRoomHeight, int minRoomWidth = 1, int minRoomHeight = 1, int border = 0)
         {
+            Debug.Assert(border > 0);
+            Debug.Assert(minRoomWidth < maxRoomWidth);
+            Debug.Assert(minRoomHeight < maxRoomHeight);
+
             for(int i = 0 ; i < numberOfPlacementsToAttempt; i++)
             {
                 int x = Random.Range(0, Dungeon.Width);
@@ -19,7 +23,8 @@
                 int roomWidth = Random.Range(minRoomWidth, maxRoomWidth);
                 int roomHeight = Random.Range(minRoomHeight, maxRoomHeight);
 
-                if(AreaContainsOnly(Dungeon2DTile.Wall, x, y, roomWidth, roomHeight))
+                // Need to check an additional area of 2 * border because padding must be on both sides of the room
+                if(AreaContainsOnly(Dungeon2DTile.Wall, x - border, y - border, roomWidth + 2 * border, roomHeight + 2 * border))
                     SetAreaToTile(Dungeon2DTile.Room, x, y, roomWidth, roomHeight);
             }
         }

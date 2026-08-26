@@ -11,13 +11,14 @@ public class Dungeon2DRandomRoomStrategy : Dungeon2DGenerationStrategy
     [SerializeField] private int MaxRoomWidth = 10;
     [SerializeField] private int MinRoomHeight = 2;
     [SerializeField] private int MaxRoomHeight = 10;
+    [SerializeField] private int Border = 1;
 
     public override Dungeon2D Generate(int seed)
     {
         Dungeon2D dungeon = new(DungeonWdith, DungeonHeight);
         DungeonGenerationContext context = new(dungeon, seed);
 
-        context.PlaceRandomRooms(NumberOfRoomsToAttempt, MaxRoomWidth, MaxRoomHeight, MinRoomWidth, MinRoomHeight);
+        context.PlaceRandomRooms(NumberOfRoomsToAttempt, MaxRoomWidth, MaxRoomHeight, MinRoomWidth, MinRoomHeight, Border);
 
         return dungeon;
     }

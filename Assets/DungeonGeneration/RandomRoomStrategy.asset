@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a6cbe58ae07a349b5ffc7cd336162d, type: 3}
   m_Name: RandomRoomStrategy
   m_EditorClassIdentifier: Assembly-CSharp::Dungeon2DRandomRoomStrategy
-  NumberOfRoomsToAttempt: 5
+  NumberOfRoomsToAttempt: 1000
   DungeonWdith: 50
   DungeonHeight: 50
-  MinRoomWidth: 2
-  MaxRoomWidth: 10
-  MinRoomHeight: 2
-  MaxRoomHeight: 10
-  seed: 42
+  MinRoomWidth: 5
+  MaxRoomWidth: 20
+  MinRoomHeight: 5
+  MaxRoomHeight: 20
+  Border: 3
