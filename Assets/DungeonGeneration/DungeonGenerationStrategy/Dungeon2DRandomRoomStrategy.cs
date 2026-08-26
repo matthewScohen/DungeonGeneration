@@ -18,8 +18,23 @@ public class Dungeon2DRandomRoomStrategy : Dungeon2DGenerationStrategy
         Dungeon2D dungeon = new(DungeonWdith, DungeonHeight);
         DungeonGenerationContext context = new(dungeon, seed);
 
-        context.PlaceRandomRooms(NumberOfRoomsToAttempt, MaxRoomWidth, MaxRoomHeight, MinRoomWidth, MinRoomHeight, Border);
+        PlaceRandomRooms(context);
 
         return dungeon;
+    }
+
+    private void PlaceRandomRooms(DungeonGenerationContext context)
+    {
+        for(int i = 0 ; i < NumberOfRoomsToAttempt; i++)
+        {
+            int x = Random.Range(0, context.Width);
+            int y = Random.Range(0, context.Height);
+            int roomWidth = Random.Range(MinRoomWidth, MaxRoomWidth);
+            int roomHeight = Random.Range(MinRoomHeight, MaxRoomHeight);
+
+            // Need to check an additional area of 2 * border because padding must be on both sides of the room
+            if(context.AreaContainsOnly(Dungeon2DTile.Wall, x - Border, y - Border, roomWidth + 2 * Border, roomHeight + 2 * Border))
+                context.SetAreaToTile(Dungeon2DTile.Room, x, y, roomWidth, roomHeight);
+        }
     }
 }
