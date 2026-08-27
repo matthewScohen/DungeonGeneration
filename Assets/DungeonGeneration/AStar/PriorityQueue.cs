@@ -43,4 +43,9 @@ public class PriorityQueue<TElement, TPriority>
 
         return highest_priority_element;
     }
+
+    public bool Contains(TElement element)
+    {
+        return backing_dict.Values.Any(queue => queue.Contains(element));
+    }
 }

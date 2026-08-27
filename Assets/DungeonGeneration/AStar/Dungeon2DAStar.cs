@@ -1,13 +1,15 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System;
 
 public class Dungeon2DAStar
 {
     private readonly IAStarGridHeuristic Heuristic;
     private readonly IAStarMovementCost MovementCost;
-    private Dungeon2D Dungeon;
+    private readonly Dungeon2D Dungeon;
 
-    private float[] PathCosts;
-    private Vector2Int[] Parents;
+    private readonly float[] PathCosts;
+    private readonly Vector2Int[] Parents;
     private PriorityQueue<Vector2Int, float> Open;
 
     public Dungeon2DAStar(Dungeon2D dungeon, IAStarGridHeuristic heuristic, IAStarMovementCost movementCost)
@@ -16,23 +18,69 @@ public class Dungeon2DAStar
         MovementCost = movementCost;
         Dungeon = dungeon;
         PathCosts = new float[Dungeon.Width * Dungeon.Height];
+        Parents = new Vector2Int[Dungeon.Width * Dungeon.Height];
     }
 
-    public void GeneratePath(Vector2Int startingCell, Vector2Int goalCell)
+    public List<Vector2Int> GeneratePath(Vector2Int startingCell, Vector2Int goalCell)
     {
+        Array.Fill(PathCosts, float.PositiveInfinity);
+        SetPathCost(startingCell, 0f);
+        
+        Vector2Int current = startingCell;
+        Open = new();
+        Open.Enqueue(startingCell, FScore(startingCell, goalCell));
 
+        while(Open.Count > 0)
+        {
+            current = Open.Dequeue();
+            if(current == goalCell)
+                break;
+
+            foreach(Vector2Int neighbor in GetNeighbors(current))
+            {
+                if(Dungeon[neighbor] == Dungeon2DTile.Invalid) continue; // Check for out of bounds
+
+                float cost = GetPathCost(current) + MovementCost.Compute(Dungeon, current, neighbor);
+                if(cost < GetPathCost(neighbor))
+                {
+                    SetPathCost(neighbor, cost);
+                    SetParent(neighbor, current);
+                    if(!Open.Contains(neighbor))
+                        Open.Enqueue(neighbor, FScore(neighbor, goalCell));
+                }
+            }
+        }
+
+        if(current != goalCell)
+            return new();
+
+        List<Vector2Int> path = new();
+        while(current != startingCell)
+        {
+            path.Add(current);
+            current = GetParent(current);
+        }
+        path.Add(startingCell);
+        return path;
     }
 
-    private Vector2Int[] GetNeighbors(Vector2Int cell)
+    private List<Vector2Int> GetNeighbors(Vector2Int cell)
     {
-        Vector2Int[] neighbors = new Vector2Int[8];
+        List<Vector2Int> neighbors = new();
 
-        int neighborCount = 0;
         for(int x = -1; x <= 1; x++)
             for(int y = -1; y <= 1; y++)
-                neighbors[neighborCount] = new(cell.x + x, cell.y + y);
+            {
+                if(x == 0 && y == 0 || (x != 0  && y != 0)) continue;
+                neighbors.Add(new(cell.x + x, cell.y + y));
+            }
 
         return neighbors;
+    }
+
+    private float FScore(Vector2Int cell, Vector2Int goal)
+    {
+        return GetPathCost(cell) + Heuristic.Compute(Dungeon, cell, goal);
     }
 
     private float GetPathCost(Vector2Int cell)
@@ -40,8 +88,18 @@ public class Dungeon2DAStar
         return PathCosts[Dungeon.Index(cell)];
     }
 
+    private void SetPathCost(Vector2Int cell, float cost)
+    {
+        PathCosts[Dungeon.Index(cell)] = cost;
+    }
+
     private Vector2Int GetParent(Vector2Int cell)
     {
         return Parents[Dungeon.Index(cell)];
+    }
+
+    private void SetParent(Vector2Int child, Vector2Int newParent)
+    {
+        Parents[Dungeon.Index(child)] = newParent;
     }
 }

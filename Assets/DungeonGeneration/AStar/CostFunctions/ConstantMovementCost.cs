@@ -9,7 +9,7 @@ public class ConstantMovementCost : IAStarMovementCost
         Cost = cost;
     }
 
-    public float MoveCost(Vector2Int startingCell, Vector2Int targetCell)
+    public float Compute(Dungeon2D _, Vector2Int startingCell, Vector2Int targetCell)
     {
         return Cost;
     }

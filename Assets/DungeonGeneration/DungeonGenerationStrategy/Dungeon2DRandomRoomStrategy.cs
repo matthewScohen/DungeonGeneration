@@ -3,15 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Dungeon/Dungeon2D Random Room Strategy")]
 public class Dungeon2DRandomRoomStrategy : Dungeon2DGenerationStrategy
 {
-    [SerializeField] private int NumberOfRoomsToAttempt = 5;
-    [SerializeField] private int DungeonWdith = 50;
-    [SerializeField] private int DungeonHeight = 50;
-
-    [SerializeField] private int MinRoomWidth = 2;
-    [SerializeField] private int MaxRoomWidth = 10;
-    [SerializeField] private int MinRoomHeight = 2;
-    [SerializeField] private int MaxRoomHeight = 10;
-    [SerializeField] private int Border = 1;
+    [SerializeField] protected int NumberOfRoomsToAttempt = 5;
+    [SerializeField] protected int DungeonWdith = 50;
+    [SerializeField] protected int DungeonHeight = 50;
+    [SerializeField] protected int MinRoomWidth = 2;
+    [SerializeField] protected int MaxRoomWidth = 10;
+    [SerializeField] protected int MinRoomHeight = 2;
+    [SerializeField] protected int MaxRoomHeight = 10;
+    [SerializeField] protected int Border = 1;
 
     public override Dungeon2D Generate(int seed)
     {
@@ -23,7 +22,7 @@ public class Dungeon2DRandomRoomStrategy : Dungeon2DGenerationStrategy
         return dungeon;
     }
 
-    private void PlaceRandomRooms(DungeonGenerationContext context)
+    protected void PlaceRandomRooms(DungeonGenerationContext context)
     {
         for(int i = 0 ; i < NumberOfRoomsToAttempt; i++)
         {
