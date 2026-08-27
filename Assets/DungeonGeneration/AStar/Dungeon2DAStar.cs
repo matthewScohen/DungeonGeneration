@@ -38,8 +38,6 @@ public class Dungeon2DAStar
 
             foreach(Vector2Int neighbor in GetNeighbors(current))
             {
-                if(Dungeon[neighbor] == Dungeon2DTile.Invalid) continue; // Check for out of bounds
-
                 float cost = GetPathCost(current) + MovementCost.Compute(Dungeon, current, neighbor);
                 if(cost < GetPathCost(neighbor))
                 {
@@ -72,7 +70,11 @@ public class Dungeon2DAStar
             for(int y = -1; y <= 1; y++)
             {
                 if(x == 0 && y == 0 || (x != 0  && y != 0)) continue;
-                neighbors.Add(new(cell.x + x, cell.y + y));
+                
+                int neighborX = cell.x + x;
+                int neighborY = cell.y + y;
+                if(Dungeon[neighborX, neighborY] == Dungeon2DTile.Invalid) continue;
+                neighbors.Add(new(neighborX, neighborY));
             }
 
         return neighbors;
