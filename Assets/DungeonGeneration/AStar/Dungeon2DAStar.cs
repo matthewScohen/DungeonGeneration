@@ -6,17 +6,20 @@ public class Dungeon2DAStar
 {
     private readonly IAStarGridHeuristic Heuristic;
     private readonly IAStarMovementCost MovementCost;
+    private readonly bool AllowDiagonalMovement;
     private readonly Dungeon2D Dungeon;
 
     private readonly float[] PathCosts;
     private readonly Vector2Int[] Parents;
     private PriorityQueue<Vector2Int, float> Open;
 
-    public Dungeon2DAStar(Dungeon2D dungeon, IAStarGridHeuristic heuristic, IAStarMovementCost movementCost)
+    public Dungeon2DAStar(Dungeon2D dungeon, IAStarGridHeuristic heuristic, IAStarMovementCost movementCost, bool allowDiagonalMovement = false)
     {
+        Dungeon = dungeon;
         Heuristic = heuristic;
         MovementCost = movementCost;
-        Dungeon = dungeon;
+        AllowDiagonalMovement = allowDiagonalMovement;
+        
         PathCosts = new float[Dungeon.Width * Dungeon.Height];
         Parents = new Vector2Int[Dungeon.Width * Dungeon.Height];
     }
@@ -69,7 +72,10 @@ public class Dungeon2DAStar
         for(int x = -1; x <= 1; x++)
             for(int y = -1; y <= 1; y++)
             {
-                if(x == 0 && y == 0 || (x != 0  && y != 0)) continue;
+                bool isSelf = x == 0 && y == 0;
+                bool isDiagonalNeighbor = x != 0 && y != 0;
+                if(isSelf) continue;
+                if(!AllowDiagonalMovement && isDiagonalNeighbor) continue;
                 
                 int neighborX = cell.x + x;
                 int neighborY = cell.y + y;
