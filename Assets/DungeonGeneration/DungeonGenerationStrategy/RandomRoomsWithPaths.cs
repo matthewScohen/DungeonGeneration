@@ -4,19 +4,20 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Dungeon/Dungeon2D Random Room With Paths Strategy")]
 public class RandomRoomsWithPaths : Dungeon2DRandomRoomStrategy
 {
+    [SerializeField] private float EmptyTileCost = 1f;
+    [SerializeField] private float HallwayTileCost = 1f;
+    [SerializeField] private float RoomTileCost = 1f;
+
     public override Dungeon2D Generate(int seed)
     {
         Dungeon2D dungeon = new(DungeonWdith, DungeonHeight);
         DungeonGenerationContext context = new(dungeon, seed);
 
-        PlaceRandomRooms(context);
+        List<Vector2Int> roomCenters = PlaceRandomRooms(context);
 
-        for(int i = 0; i < 10; i++)
-        {
-            Vector2Int random1 = new(Random.Range(0, DungeonWdith), Random.Range(0, DungeonHeight));
-            Vector2Int random2 = new(Random.Range(0, DungeonWdith), Random.Range(0, DungeonHeight));
-            CreatePath(dungeon, random1, random2);
-        }
+        foreach(Vector2Int roomCenter1 in roomCenters)
+            foreach(Vector2Int roomCenter2 in roomCenters)
+                CreatePath(dungeon, roomCenter1, roomCenter2);
 
         return dungeon;
     }
@@ -24,7 +25,7 @@ public class RandomRoomsWithPaths : Dungeon2DRandomRoomStrategy
     private void CreatePath(Dungeon2D dungeon, Vector2Int start, Vector2Int goal)
     {
         ManhattanHeuristic manhattanHeuristic = new(minimumMoveCost: 1f);
-        ConstantMovementCost movementCost = new(cost: 1f);
+        TileCosts movementCost = new(EmptyTileCost, HallwayTileCost, RoomTileCost);
         Dungeon2DAStar path_creator = new(dungeon, manhattanHeuristic, movementCost);
         List<Vector2Int> path = path_creator.GeneratePath(start, goal);
 

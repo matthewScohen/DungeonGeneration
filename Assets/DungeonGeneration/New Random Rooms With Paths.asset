@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43b2bef5fed7c4b41941c9bc1a355a73, type: 3}
   m_Name: New Random Rooms With Paths
   m_EditorClassIdentifier: Assembly-CSharp::RandomRoomsWithPaths
-  NumberOfRoomsToAttempt: 5
+  NumberOfRoomsToAttempt: 95
   DungeonWdith: 50
   DungeonHeight: 50
   MinRoomWidth: 2
@@ -20,3 +20,6 @@ MonoBehaviour:
   MinRoomHeight: 2
   MaxRoomHeight: 10
   Border: 1
+  EmptyTileCost: 1
+  HallwayTileCost: 1
+  RoomTileCost: 1

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Dungeon/Dungeon2D Random Room Strategy")]
@@ -22,8 +23,10 @@ public class Dungeon2DRandomRoomStrategy : Dungeon2DGenerationStrategy
         return dungeon;
     }
 
-    protected void PlaceRandomRooms(DungeonGenerationContext context)
+    protected List<Vector2Int> PlaceRandomRooms(DungeonGenerationContext context)
     {
+        List<Vector2Int> RoomCenters = new();
+
         for(int i = 0 ; i < NumberOfRoomsToAttempt; i++)
         {
             int x = Random.Range(0, context.Width);
@@ -33,7 +36,12 @@ public class Dungeon2DRandomRoomStrategy : Dungeon2DGenerationStrategy
 
             // Need to check an additional area of 2 * border because padding must be on both sides of the room
             if(context.AreaContainsOnly(Dungeon2DTile.Wall, x - Border, y - Border, roomWidth + 2 * Border, roomHeight + 2 * Border))
+            {
                 context.SetAreaToTile(Dungeon2DTile.Room, x, y, roomWidth, roomHeight);
+                RoomCenters.Add(new(x + roomWidth / 2, y + roomHeight / 2));
+            }
         }
+
+        return RoomCenters;
     }
 }
