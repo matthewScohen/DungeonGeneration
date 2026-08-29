@@ -20,6 +20,6 @@ MonoBehaviour:
   MinRoomHeight: 2
   MaxRoomHeight: 10
   Border: 1
-  EmptyTileCost: 1
-  HallwayTileCost: 1
-  RoomTileCost: 1
+  EmptyTileCost: 10
+  HallwayTileCost: 3
+  RoomTileCost: 3
