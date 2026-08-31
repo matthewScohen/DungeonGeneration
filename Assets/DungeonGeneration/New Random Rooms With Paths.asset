@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: New Random Rooms With Paths
   m_EditorClassIdentifier: Assembly-CSharp::RandomRoomsWithPaths
   NumberOfRoomsToAttempt: 95
-  DungeonWdith: 50
-  DungeonHeight: 50
+  DungeonWdith: 100
+  DungeonHeight: 100
   MinRoomWidth: 2
   MaxRoomWidth: 10
   MinRoomHeight: 2
   MaxRoomHeight: 10
   Border: 1
-  EmptyTileCost: 10
+  EmptyTileCost: 3
   HallwayTileCost: 3
   RoomTileCost: 3
+  MaxRandomAddedCost: 0
