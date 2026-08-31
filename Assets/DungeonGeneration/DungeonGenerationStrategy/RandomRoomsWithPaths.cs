@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Dungeon/Dungeon2D Random Room With Paths Strategy")]
 public class RandomRoomsWithPaths : Dungeon2DRandomRoomStrategy
 {
-    [SerializeField] private float EmptyTileCost = 1f;
+    [SerializeField] private float WallTileCost = 1f;
     [SerializeField] private float HallwayTileCost = 1f;
     [SerializeField] private float RoomTileCost = 1f;
     [SerializeField] private float MaxRandomAddedCost = 0f;
@@ -17,14 +17,13 @@ public class RandomRoomsWithPaths : Dungeon2DRandomRoomStrategy
 
         List<Vector2Int> roomCenters = PlaceRandomRooms(context);
 
-        ManhattanHeuristic manhattanHeuristic = new(minimumMoveCost: Mathf.Min(EmptyTileCost, HallwayTileCost, RoomTileCost));
-        TileCosts baseMovementCost = new(EmptyTileCost, HallwayTileCost, RoomTileCost);
+        ManhattanHeuristic manhattanHeuristic = new(minimumMoveCost: Mathf.Min(WallTileCost, HallwayTileCost, RoomTileCost));
+        TileCosts baseMovementCost = new(WallTileCost, HallwayTileCost, RoomTileCost);
         RandomizedCostFunction randomMovementCost = new(baseMovementCost, MaxRandomAddedCost);
 
         List<Triangle> triangulation = DelaunayTriangulation.Triangulate(roomCenters);
         foreach(Triangle triangle in triangulation)
         {
-            Debug.Log($"{triangle.P1}, {triangle.P2}, {triangle.P3}");
             CreatePath(dungeon, triangle.P1, triangle.P2, manhattanHeuristic, randomMovementCost);
             CreatePath(dungeon, triangle.P2, triangle.P3, manhattanHeuristic, randomMovementCost);
             CreatePath(dungeon, triangle.P3, triangle.P1, manhattanHeuristic, randomMovementCost);
