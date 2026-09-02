@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43b2bef5fed7c4b41941c9bc1a355a73, type: 3}
-  m_Name: New Random Rooms With Paths
+  m_Name: RandomRoomsWithPathsStrategy
   m_EditorClassIdentifier: Assembly-CSharp::RandomRoomsWithPaths
-  NumberOfRoomsToAttempt: 300
-  DungeonWdith: 50
-  DungeonHeight: 50
+  NumberOfRoomsToAttempt: 600
+  DungeonWdith: 100
+  DungeonHeight: 100
   MinRoomWidth: 5
   MaxRoomWidth: 15
   MinRoomHeight: 5

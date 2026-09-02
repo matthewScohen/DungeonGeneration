@@ -5,8 +5,12 @@ using UnityEngine;
 public class DungeonGenerator : ScriptableObject
 {
     [SerializeField] private int seed = 42;
-    [SerializeField] private Dungeon Dungeon = new(10, 10);
     [SerializeField] private DungeonGenerationStrategy GenerationStrategy;
+
+    [SerializeField] private DungeonObject DungeonObject;
+    private Dungeon Dungeon;
+
+    public DungeonObject SavedDungeonObject => DungeonObject;
 
     public int Width => Dungeon != null ? Dungeon.Width : 0;
     public int Height => Dungeon != null ? Dungeon.Height : 0;
@@ -28,7 +32,11 @@ public class DungeonGenerator : ScriptableObject
         if (generatedDungeon == null)
             return false;
 
+        if (DungeonObject == null)
+            DungeonObject = CreateInstance<DungeonObject>();
+
         Dungeon = generatedDungeon;
+        DungeonObject.Dungeon = Dungeon;
         Generated?.Invoke();
         return true;
     }
