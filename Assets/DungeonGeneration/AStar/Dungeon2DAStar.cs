@@ -2,18 +2,18 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class Dungeon2DAStar
+public class DungeonAStar
 {
     private readonly IAStarGridHeuristic Heuristic;
     private readonly IAStarMovementCost MovementCost;
     private readonly bool AllowDiagonalMovement;
-    private readonly Dungeon2D Dungeon;
+    private readonly Dungeon Dungeon;
 
     private readonly float[] PathCosts;
     private readonly Vector2Int[] Parents;
     private PriorityQueue<Vector2Int, float> Open;
 
-    public Dungeon2DAStar(Dungeon2D dungeon, IAStarGridHeuristic heuristic, IAStarMovementCost movementCost, bool allowDiagonalMovement = false)
+    public DungeonAStar(Dungeon dungeon, IAStarGridHeuristic heuristic, IAStarMovementCost movementCost, bool allowDiagonalMovement = false)
     {
         Dungeon = dungeon;
         Heuristic = heuristic;
@@ -79,7 +79,7 @@ public class Dungeon2DAStar
                 
                 int neighborX = cell.x + x;
                 int neighborY = cell.y + y;
-                if(Dungeon[neighborX, neighborY] == Dungeon2DTile.Invalid) continue;
+                if(Dungeon[neighborX, neighborY] == DungeonTile.Invalid) continue;
                 neighbors.Add(new(neighborX, neighborY));
             }
 

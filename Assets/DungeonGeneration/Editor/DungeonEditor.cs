@@ -1,8 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Dungeon2DGenerator))]
-public class Dungeon2DEditor : Editor
+[CustomEditor(typeof(DungeonGenerator))]
+public class DungeonEditor : Editor
 {
     public override void OnInspectorGUI()
     {
@@ -10,7 +10,7 @@ public class Dungeon2DEditor : Editor
 
         GUILayout.Space(10);
 
-        Dungeon2DGenerator dungeon = (Dungeon2DGenerator)target;
+        DungeonGenerator dungeon = (DungeonGenerator)target;
         using (new EditorGUI.DisabledScope(!dungeon.CanGenerate))
         {
             if (GUILayout.Button("Generate Dungeon", GUILayout.Height(30)))
@@ -26,7 +26,7 @@ public class Dungeon2DEditor : Editor
 
         if (GUILayout.Button("Open Dungeon Editor", GUILayout.Height(30)))
         {
-            Dungeon2DEditorWindow.ShowWindow(dungeon);
+            DungeonEditorWindow.ShowWindow(dungeon);
         }
     }
 }

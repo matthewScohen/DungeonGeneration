@@ -2,19 +2,19 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Dungeon2DView : VisualElement
+public class DungeonView : VisualElement
 {
     private const float BaseTileSize = 32f;
 
-    private Dungeon2DGenerator dungeon;
+    private DungeonGenerator dungeon;
 
     private const float MinZoom = 0.25f;
     private const float MaxZoom = 4f;
-    private float CurrentZoom = 1f;
+    private float CurrentZoom = 0.25f;
 
     private float TileSize => BaseTileSize * CurrentZoom;
 
-    public Dungeon2DView()
+    public DungeonView()
     {
         style.flexGrow = 1;
         focusable = true;
@@ -25,7 +25,7 @@ public class Dungeon2DView : VisualElement
         RegisterCallback<WheelEvent>(OnWheel);
     }
 
-    public void SetDungeon(Dungeon2DGenerator dungeon)
+    public void SetDungeon(DungeonGenerator dungeon)
     {
         this.dungeon = dungeon;
         Refresh();
@@ -75,13 +75,13 @@ public class Dungeon2DView : VisualElement
         }
     }
 
-    private Color GetTileColor(Dungeon2DTile tile)
+    private Color GetTileColor(DungeonTile tile)
     {
         return tile switch
         {
-            Dungeon2DTile.Wall => new Color(0.15f, 0.15f, 0.15f),
-            Dungeon2DTile.Hallway => new Color(0.8f, 0.8f, 0.8f),
-            Dungeon2DTile.Room => new Color(0.8f, 0f, 0f),
+            DungeonTile.Wall => new Color(0.15f, 0.15f, 0.15f),
+            DungeonTile.Hallway => new Color(0.8f, 0.8f, 0.8f),
+            DungeonTile.Room => new Color(0.8f, 0f, 0f),
             _ => Color.magenta
         };
     }
@@ -141,7 +141,7 @@ public class Dungeon2DView : VisualElement
 
         Undo.RecordObject(dungeon, "Paint Dungeon Tile");
 
-        dungeon[x, y] = dungeon[x, y] == Dungeon2DTile.Wall ? Dungeon2DTile.Hallway : Dungeon2DTile.Wall;
+        dungeon[x, y] = dungeon[x, y] == DungeonTile.Wall ? DungeonTile.Hallway : DungeonTile.Wall;
 
         EditorUtility.SetDirty(dungeon);
         MarkDirtyRepaint();

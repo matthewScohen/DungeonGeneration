@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Dungeon2DGenerationStrategy : ScriptableObject
+public abstract class DungeonGenerationStrategy : ScriptableObject
 {
-    public abstract Dungeon2D Generate(int seed);
+    public abstract Dungeon Generate(int seed);
 }

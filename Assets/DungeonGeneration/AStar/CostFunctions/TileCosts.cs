@@ -13,13 +13,13 @@ public class TileCosts : IAStarMovementCost
     }
 
     // The starting cell does not matter for this type of cost function
-    public float Compute(Dungeon2D dungeon, Vector2Int startingCell, Vector2Int targetCell)
+    public float Compute(Dungeon dungeon, Vector2Int startingCell, Vector2Int targetCell)
     {
         return dungeon[targetCell] switch
         {
-            Dungeon2DTile.Wall => WallTileCost,
-            Dungeon2DTile.Hallway => HallwayCost,
-            Dungeon2DTile.Room => RoomCost,
+            DungeonTile.Wall => WallTileCost,
+            DungeonTile.Hallway => HallwayCost,
+            DungeonTile.Room => RoomCost,
             _ => DefaultCost,
         };
     }

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Dungeon/Dungeon2D Random Room Strategy")]
-public class Dungeon2DRandomRoomStrategy : Dungeon2DGenerationStrategy
+[CreateAssetMenu(menuName = "Dungeon/Dungeon Random Room Strategy")]
+public class DungeonRandomRoomStrategy : DungeonGenerationStrategy
 {
     [SerializeField] protected int NumberOfRoomsToAttempt = 5;
     [SerializeField] protected int DungeonWdith = 50;
@@ -13,9 +13,9 @@ public class Dungeon2DRandomRoomStrategy : Dungeon2DGenerationStrategy
     [SerializeField] protected int MaxRoomHeight = 10;
     [SerializeField] protected int Border = 1;
 
-    public override Dungeon2D Generate(int seed)
+    public override Dungeon Generate(int seed)
     {
-        Dungeon2D dungeon = new(DungeonWdith, DungeonHeight);
+        Dungeon dungeon = new(DungeonWdith, DungeonHeight);
         DungeonGenerationContext context = new(dungeon, seed);
 
         PlaceRandomRooms(context);
@@ -35,9 +35,9 @@ public class Dungeon2DRandomRoomStrategy : Dungeon2DGenerationStrategy
             int roomHeight = Random.Range(MinRoomHeight, MaxRoomHeight);
 
             // Need to check an additional area of 2 * border because padding must be on both sides of the room
-            if(context.AreaContainsOnly(Dungeon2DTile.Wall, x - Border, y - Border, roomWidth + 2 * Border, roomHeight + 2 * Border))
+            if(context.AreaContainsOnly(DungeonTile.Wall, x - Border, y - Border, roomWidth + 2 * Border, roomHeight + 2 * Border))
             {
-                context.SetAreaToTile(Dungeon2DTile.Room, x, y, roomWidth, roomHeight);
+                context.SetAreaToTile(DungeonTile.Room, x, y, roomWidth, roomHeight);
                 RoomCenters.Add(new(x + roomWidth / 2, y + roomHeight / 2));
             }
         }

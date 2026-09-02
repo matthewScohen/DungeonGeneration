@@ -2,14 +2,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Dungeon2DEditorWindow : EditorWindow
+public class DungeonEditorWindow : EditorWindow
 {
-    private Dungeon2DGenerator dungeon;
-    private Dungeon2DView dungeon2DView;
+    private DungeonGenerator dungeon;
+    private DungeonView dungeonView;
 
-    public static void ShowWindow(Dungeon2DGenerator dungeon)
+    public static void ShowWindow(DungeonGenerator dungeon)
     {
-        Dungeon2DEditorWindow window = GetWindow<Dungeon2DEditorWindow>();
+        DungeonEditorWindow window = GetWindow<DungeonEditorWindow>();
 
         window.titleContent = new GUIContent("Dungeon 2D Editor");
         window.SetDungeon(dungeon);
@@ -17,7 +17,7 @@ public class Dungeon2DEditorWindow : EditorWindow
         window.Refresh();
     }
 
-    private void SetDungeon(Dungeon2DGenerator newDungeon)
+    private void SetDungeon(DungeonGenerator newDungeon)
     {
         if (dungeon != null)
             dungeon.Generated -= Refresh;
@@ -32,10 +32,10 @@ public class Dungeon2DEditorWindow : EditorWindow
     {
         ScrollView scrollView = new();
 
-        dungeon2DView = new();
-        dungeon2DView.SetDungeon(dungeon);
+        dungeonView = new();
+        dungeonView.SetDungeon(dungeon);
 
-        scrollView.Add(dungeon2DView);
+        scrollView.Add(dungeonView);
         rootVisualElement.Add(scrollView);
     }
 
@@ -59,11 +59,11 @@ public class Dungeon2DEditorWindow : EditorWindow
 
     private void OnUndoRedo()
     {
-        dungeon2DView?.Refresh();
+        dungeonView?.Refresh();
     }
 
     private void Refresh()
     {
-        dungeon2DView?.SetDungeon(dungeon);
+        dungeonView?.SetDungeon(dungeon);
     }
 }

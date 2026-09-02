@@ -2,18 +2,18 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Dungeon/Dungeon 2D")]
-public class Dungeon2DGenerator : ScriptableObject
+public class DungeonGenerator : ScriptableObject
 {
     [SerializeField] private int seed = 42;
-    [SerializeField] private Dungeon2D Dungeon = new(10, 10);
-    [SerializeField] private Dungeon2DGenerationStrategy GenerationStrategy;
+    [SerializeField] private Dungeon Dungeon = new(10, 10);
+    [SerializeField] private DungeonGenerationStrategy GenerationStrategy;
 
     public int Width => Dungeon != null ? Dungeon.Width : 0;
     public int Height => Dungeon != null ? Dungeon.Height : 0;
     public bool CanGenerate => GenerationStrategy != null;
     public event Action Generated;
 
-    public Dungeon2DTile this[int x, int y]
+    public DungeonTile this[int x, int y]
     {
         get => Dungeon[x, y];
         set => Dungeon[x, y] = value;
@@ -24,7 +24,7 @@ public class Dungeon2DGenerator : ScriptableObject
         if (GenerationStrategy == null)
             return false;
 
-        Dungeon2D generatedDungeon = GenerationStrategy.Generate(seed);
+        Dungeon generatedDungeon = GenerationStrategy.Generate(seed);
         if (generatedDungeon == null)
             return false;
 
@@ -35,6 +35,6 @@ public class Dungeon2DGenerator : ScriptableObject
 
     private void OnValidate()
     {
-        Dungeon ??= new Dungeon2D(10, 10);
+        Dungeon ??= new Dungeon(10, 10);
     }
 }

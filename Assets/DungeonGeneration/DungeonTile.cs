@@ -1,4 +1,4 @@
-public enum Dungeon2DTile
+public enum DungeonTile
 {
     Invalid = -1,
     Wall,

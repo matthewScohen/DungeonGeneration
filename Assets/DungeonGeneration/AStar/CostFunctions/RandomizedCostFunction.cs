@@ -13,7 +13,7 @@ public class RandomizedCostFunction : IAStarMovementCost
         MaxAddedCost = maxAddedCost;
     }
 
-    public float Compute(Dungeon2D dungeon, Vector2Int startingCell, Vector2Int targetCell)
+    public float Compute(Dungeon dungeon, Vector2Int startingCell, Vector2Int targetCell)
     {
         Span<byte> buffer = stackalloc byte[8];
         BitConverter.TryWriteBytes(buffer.Slice(0, 4), targetCell.x);

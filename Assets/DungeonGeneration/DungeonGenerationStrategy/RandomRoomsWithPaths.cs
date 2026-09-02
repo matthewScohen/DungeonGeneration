@@ -2,17 +2,17 @@ using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Dungeon/Dungeon2D Random Room With Paths Strategy")]
-public class RandomRoomsWithPaths : Dungeon2DRandomRoomStrategy
+[CreateAssetMenu(menuName = "Dungeon/Dungeon Random Room With Paths Strategy")]
+public class RandomRoomsWithPaths : DungeonRandomRoomStrategy
 {
     [SerializeField] private float WallTileCost = 1f;
     [SerializeField] private float HallwayTileCost = 1f;
     [SerializeField] private float RoomTileCost = 1f;
     [SerializeField] private float MaxRandomAddedCost = 0f;
 
-    public override Dungeon2D Generate(int seed)
+    public override Dungeon Generate(int seed)
     {
-        Dungeon2D dungeon = new(DungeonWdith, DungeonHeight);
+        Dungeon dungeon = new(DungeonWdith, DungeonHeight);
         DungeonGenerationContext context = new(dungeon, seed);
 
         List<Vector2Int> roomCenters = PlaceRandomRooms(context);
@@ -32,16 +32,16 @@ public class RandomRoomsWithPaths : Dungeon2DRandomRoomStrategy
         return dungeon;
     }
 
-    private void CreatePath(Dungeon2D dungeon, Vector2Int start, Vector2Int goal, IAStarGridHeuristic heuristic, IAStarMovementCost movementCost)
+    private void CreatePath(Dungeon dungeon, Vector2Int start, Vector2Int goal, IAStarGridHeuristic heuristic, IAStarMovementCost movementCost)
     {
-        Dungeon2DAStar path_creator = new(dungeon, heuristic, movementCost);
+        DungeonAStar path_creator = new(dungeon, heuristic, movementCost);
         List<Vector2Int> path = path_creator.GeneratePath(start, goal);
 
         foreach(Vector2Int pathCell in path)
-            dungeon[pathCell] = dungeon[pathCell] == Dungeon2DTile.Room ? Dungeon2DTile.Room : Dungeon2DTile.Hallway;
+            dungeon[pathCell] = dungeon[pathCell] == DungeonTile.Room ? DungeonTile.Room : DungeonTile.Hallway;
     }
 
-    private void CreatePath(Dungeon2D dungeon, Vector2 start, Vector2 goal, IAStarGridHeuristic heuristic, IAStarMovementCost movementCost)
+    private void CreatePath(Dungeon dungeon, Vector2 start, Vector2 goal, IAStarGridHeuristic heuristic, IAStarMovementCost movementCost)
     {
         CreatePath(dungeon, Vector2Int.RoundToInt(start), Vector2Int.RoundToInt(goal), heuristic, movementCost);
     }
