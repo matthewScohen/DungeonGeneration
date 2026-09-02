@@ -35,7 +35,7 @@ public class DungeonRandomRoomStrategy : DungeonGenerationStrategy
             int roomHeight = Random.Range(MinRoomHeight, MaxRoomHeight);
 
             // Need to check an additional area of 2 * border because padding must be on both sides of the room
-            if(context.AreaContainsOnly(DungeonTile.Wall, x - Border, y - Border, roomWidth + 2 * Border, roomHeight + 2 * Border))
+            if(context.AreaContainsOnly(DungeonTile.Empty, x - Border, y - Border, roomWidth + 2 * Border, roomHeight + 2 * Border))
             {
                 context.SetAreaToTile(DungeonTile.Room, x, y, roomWidth, roomHeight);
                 RoomCenters.Add(new(x + roomWidth / 2, y + roomHeight / 2));

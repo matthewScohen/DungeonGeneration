@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class TileCosts : IAStarMovementCost
 {
-    private readonly float WallTileCost, HallwayCost, RoomCost, DefaultCost;
+    private readonly float EmptyTileCost, HallwayCost, RoomCost, DefaultCost;
 
-    public TileCosts(float wallTileCost, float hallwayCost, float roomCost, float defaultCost = 1)
+    public TileCosts(float emptyTileCost, float hallwayCost, float roomCost, float defaultCost = 1)
     {
-        WallTileCost = wallTileCost;
+        EmptyTileCost = emptyTileCost;
         HallwayCost = hallwayCost;
         RoomCost = roomCost;
         DefaultCost = defaultCost;
@@ -17,7 +17,7 @@ public class TileCosts : IAStarMovementCost
     {
         return dungeon[targetCell] switch
         {
-            DungeonTile.Wall => WallTileCost,
+            DungeonTile.Empty => EmptyTileCost,
             DungeonTile.Hallway => HallwayCost,
             DungeonTile.Room => RoomCost,
             _ => DefaultCost,

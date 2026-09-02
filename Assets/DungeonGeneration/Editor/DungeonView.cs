@@ -79,7 +79,7 @@ public class DungeonView : VisualElement
     {
         return tile switch
         {
-            DungeonTile.Wall => new Color(0.15f, 0.15f, 0.15f),
+            DungeonTile.Empty => new Color(0.15f, 0.15f, 0.15f),
             DungeonTile.Hallway => new Color(0.8f, 0.8f, 0.8f),
             DungeonTile.Room => new Color(0.8f, 0f, 0f),
             _ => Color.magenta
@@ -141,7 +141,7 @@ public class DungeonView : VisualElement
 
         Undo.RecordObject(dungeon, "Paint Dungeon Tile");
 
-        dungeon[x, y] = dungeon[x, y] == DungeonTile.Wall ? DungeonTile.Hallway : DungeonTile.Wall;
+        dungeon[x, y] = dungeon[x, y] == DungeonTile.Empty ? DungeonTile.Hallway : DungeonTile.Empty;
 
         EditorUtility.SetDirty(dungeon);
         MarkDirtyRepaint();
