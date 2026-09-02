@@ -4,8 +4,6 @@ using System;
 // When making a DungeonPiece prefab the North side should coorespond to the Z+ axis
 public class DungeonPiece : MonoBehaviour
 {
-
-    private readonly bool[] SideOpen = new bool[Enum.GetNames(typeof(DungeonPieceSide)).Length];
     [SerializeField] private SideToGameObjectMapping[] SideToObjectMapping;
 
     private void Reset()
@@ -24,10 +22,16 @@ public class DungeonPiece : MonoBehaviour
         }
     }
 
-    public void SetSideOpen(DungeonPieceSide side, bool open)
+    public void SetSideOpen(DungeonTile neighbor, DungeonPieceSide side)
     {
-        SideOpen[(int)side] = open;
-        SideToObjectMapping[(int)side].gameObject.SetActive(open);
+        SideToObjectMapping[(int)side].gameObject.SetActive(SideShouldBeClosed(neighbor));
+    }
+
+    // Can be overridden for pieces that have special rules for when a side should be open or closed
+    protected bool SideShouldBeClosed(DungeonTile neighbor)
+    {
+        bool NeighborFilled = neighbor != DungeonTile.Invalid && neighbor != DungeonTile.Empty;
+        return !NeighborFilled;
     }
 }
 

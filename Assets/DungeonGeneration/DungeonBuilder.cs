@@ -53,12 +53,9 @@ public class DungeonBuilder : MonoBehaviour
                 neighbors[(int)DungeonPieceSide.East] = Dungeon[x + 1, y];
                 neighbors[(int)DungeonPieceSide.South] = Dungeon[x, y - 1];
                 neighbors[(int)DungeonPieceSide.West] = Dungeon[x - 1, y];
+                
                 foreach(DungeonPieceSide side in Enum.GetValues(typeof(DungeonPieceSide)))
-                {
-                    DungeonTile neighbor = neighbors[(int)side];
-                    bool NeighborFilled = neighbor != DungeonTile.Invalid && neighbor != DungeonTile.Empty;
-                    instance.SetSideOpen(side, !NeighborFilled);
-                }
+                    instance.SetSideOpen(neighbors[(int)side], side);
             }
         }
     }
