@@ -4,28 +4,28 @@ using UnityEngine.UIElements;
 
 public class DungeonEditorWindow : EditorWindow
 {
-    private DungeonGenerator dungeon;
+    private DungeonObject DungeonObject;
+    private DungeonGenerator DungeonGenerator;
     private DungeonView dungeonView;
 
-    public static void ShowWindow(DungeonGenerator dungeon)
+    public static void ShowWindow(DungeonObject dungeon, DungeonGenerator dungeonGenerator = null)
     {
         DungeonEditorWindow window = GetWindow<DungeonEditorWindow>();
 
-        window.titleContent = new GUIContent("Dungeon 2D Editor");
+        window.titleContent = new GUIContent("Dungeon 2D Viewer");
         window.SetDungeon(dungeon);
+        window.DungeonGenerator = dungeonGenerator;
 
         window.Refresh();
+
+        if (dungeonGenerator != null)
+            dungeonGenerator.Generated += window.Refresh;
     }
 
-    private void SetDungeon(DungeonGenerator newDungeon)
+    private void SetDungeon(DungeonObject dungeon)
     {
-        if (dungeon != null)
-            dungeon.Generated -= Refresh;
-
-        dungeon = newDungeon;
-
-        if (dungeon != null)
-            dungeon.Generated += Refresh;
+        DungeonObject = dungeon;
+        Refresh();
     }
 
     private void CreateGUI()
@@ -33,7 +33,7 @@ public class DungeonEditorWindow : EditorWindow
         ScrollView scrollView = new();
 
         dungeonView = new();
-        dungeonView.SetDungeon(dungeon);
+        dungeonView.SetDungeon(DungeonObject);
 
         scrollView.Add(dungeonView);
         rootVisualElement.Add(scrollView);
@@ -42,19 +42,11 @@ public class DungeonEditorWindow : EditorWindow
     private void OnEnable()
     {
         Undo.undoRedoPerformed += OnUndoRedo;
-
-        if (dungeon != null)
-            dungeon.Generated += Refresh;
     }
 
     private void OnDisable()
     {
         Undo.undoRedoPerformed -= OnUndoRedo;
-
-        if (dungeon != null)
-            dungeon.Generated -= Refresh;
-
-        AssetDatabase.SaveAssetIfDirty(dungeon);
     }
 
     private void OnUndoRedo()
@@ -64,6 +56,10 @@ public class DungeonEditorWindow : EditorWindow
 
     private void Refresh()
     {
-        dungeonView?.SetDungeon(dungeon);
+        if(DungeonGenerator != null && DungeonGenerator.DungeonObject != DungeonObject)
+        {
+            DungeonObject = DungeonGenerator.DungeonObject;
+        }
+        dungeonView?.SetDungeon(DungeonObject);
     }
 }

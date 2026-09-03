@@ -4,10 +4,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Dungeon/Dungeon 2D")]
 public class DungeonGenerator : ScriptableObject
 {
+    [HideInInspector] public DungeonObject DungeonObject;
     [SerializeField] private int seed = 42;
     [SerializeField] private DungeonGenerationStrategy GenerationStrategy;
 
-    [SerializeField] private DungeonObject DungeonObject;
     private Dungeon Dungeon;
 
     public DungeonObject SavedDungeonObject => DungeonObject;
@@ -32,10 +32,8 @@ public class DungeonGenerator : ScriptableObject
         if (generatedDungeon == null)
             return false;
 
-        if (DungeonObject == null)
-            DungeonObject = CreateInstance<DungeonObject>();
-
         Dungeon = generatedDungeon;
+        DungeonObject = CreateInstance<DungeonObject>();
         DungeonObject.Dungeon = Dungeon;
         Generated?.Invoke();
         return true;

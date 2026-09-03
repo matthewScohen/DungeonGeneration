@@ -6,7 +6,8 @@ public class DungeonView : VisualElement
 {
     private const float BaseTileSize = 32f;
 
-    private DungeonGenerator dungeon;
+    private DungeonObject dungeonObject;
+    private Dungeon Dungeon => dungeonObject == null ? null : dungeonObject.Dungeon;
 
     private const float MinZoom = 0.25f;
     private const float MaxZoom = 4f;
@@ -20,14 +21,13 @@ public class DungeonView : VisualElement
         focusable = true;
 
         generateVisualContent += OnGenerateVisualContent;
-
-        RegisterCallback<MouseDownEvent>(OnMouseDown);
+        
         RegisterCallback<WheelEvent>(OnWheel);
     }
 
-    public void SetDungeon(DungeonGenerator dungeon)
+    public void SetDungeon(DungeonObject dungeonObject)
     {
-        this.dungeon = dungeon;
+        this.dungeonObject = dungeonObject;
         Refresh();
     }
 
@@ -39,19 +39,19 @@ public class DungeonView : VisualElement
 
     private void OnGenerateVisualContent(MeshGenerationContext context)
     {
-        if (dungeon == null)
+        if (Dungeon == null)
             return;
 
         Painter2D painter = context.painter2D;
 
-        for (int y = 0; y < dungeon.Height; y++)
+        for (int y = 0; y < Dungeon.Height; y++)
         {
-            for (int x = 0; x < dungeon.Width; x++)
+            for (int x = 0; x < Dungeon.Width; x++)
             {
-                Rect rect = new(x * TileSize, (dungeon.Height - 1 - y) * TileSize, TileSize, TileSize);
+                Rect rect = new(x * TileSize, (Dungeon.Height - 1 - y) * TileSize, TileSize, TileSize);
 
                 // Solid tiles
-                painter.fillColor = GetTileColor(dungeon[x, y]);
+                painter.fillColor = GetTileColor(Dungeon[x, y]);
                 painter.BeginPath();
                 painter.MoveTo(rect.min);
                 painter.LineTo(new Vector2(rect.xMax, rect.yMin));
@@ -91,7 +91,7 @@ public class DungeonView : VisualElement
         if (!wheelEvent.ctrlKey)
             return;
 
-        if (dungeon == null)
+        if (Dungeon == null)
             return;
 
         float oldZoom = CurrentZoom;
@@ -124,35 +124,12 @@ public class DungeonView : VisualElement
         wheelEvent.StopPropagation();
     }
 
-    private void OnMouseDown(MouseDownEvent mouseEvent)
-    {
-        if (dungeon == null)
-            return;
-
-        if (mouseEvent.button != 0)
-            return;
-
-        int x = Mathf.FloorToInt(mouseEvent.localMousePosition.x / TileSize);
-        int flippedY = Mathf.FloorToInt(mouseEvent.localMousePosition.y / TileSize);
-        int y = dungeon.Height - 1 - flippedY;
-
-        if (x < 0 || x >= dungeon.Width || y < 0 || y >= dungeon.Height)
-            return;
-
-        Undo.RecordObject(dungeon, "Paint Dungeon Tile");
-
-        dungeon[x, y] = dungeon[x, y] == DungeonTile.Empty ? DungeonTile.Hallway : DungeonTile.Empty;
-
-        EditorUtility.SetDirty(dungeon);
-        MarkDirtyRepaint();
-    }
-
     private void UpdateElementSize()
     {
-        if(dungeon == null)
+        if(Dungeon == null)
             return;
 
-        style.width = dungeon.Width * TileSize;
-        style.height = dungeon.Height * TileSize;
+        style.width = Dungeon.Width * TileSize;
+        style.height = Dungeon.Height * TileSize;
     }
 }
