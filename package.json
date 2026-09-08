@@ -1,5 +1,6 @@
 {
   "name": "com.matthewscohen.dungeongeneration",
   "version": "1.0.0",
-  "displayName": "Dungeon Generation"
+  "displayName": "Dungeon Generation",
+  "unity": "6000.5"
 }
