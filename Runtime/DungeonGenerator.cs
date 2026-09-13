@@ -38,9 +38,4 @@ public class DungeonGenerator : ScriptableObject
         Generated?.Invoke();
         return true;
     }
-
-    private void OnValidate()
-    {
-        Dungeon ??= new Dungeon(10, 10);
-    }
 }

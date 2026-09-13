@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11a6cbe58ae07a349b5ffc7cd336162d, type: 3}
   m_Name: RandomRoomStrategy
   m_EditorClassIdentifier: Assembly-CSharp::Dungeon2DRandomRoomStrategy
+  TileSet: {fileID: 11400000, guid: f237fffd4df077c438a24d97248cc428, type: 2}
   NumberOfRoomsToAttempt: 1000
   DungeonWdith: 50
   DungeonHeight: 50
@@ -20,3 +21,4 @@ MonoBehaviour:
   MinRoomHeight: 5
   MaxRoomHeight: 20
   Border: 3
+  RoomTileName: Room

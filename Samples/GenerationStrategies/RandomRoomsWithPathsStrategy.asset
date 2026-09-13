@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43b2bef5fed7c4b41941c9bc1a355a73, type: 3}
   m_Name: RandomRoomsWithPathsStrategy
   m_EditorClassIdentifier: Assembly-CSharp::RandomRoomsWithPaths
+  TileSet: {fileID: 11400000, guid: f237fffd4df077c438a24d97248cc428, type: 2}
   NumberOfRoomsToAttempt: 600
   DungeonWdith: 100
   DungeonHeight: 100
@@ -20,7 +21,9 @@ MonoBehaviour:
   MinRoomHeight: 5
   MaxRoomHeight: 15
   Border: 1
-  WallTileCost: 10
+  RoomTileName: Room
+  HallwayTileName: Hallway
+  EmptyTileCost: 10
   HallwayTileCost: 3
   RoomTileCost: 3
   MaxRandomAddedCost: 0

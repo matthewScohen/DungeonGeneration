@@ -51,7 +51,7 @@ public class DungeonView : VisualElement
                 Rect rect = new(x * TileSize, (Dungeon.Height - 1 - y) * TileSize, TileSize, TileSize);
 
                 // Solid tiles
-                painter.fillColor = GetTileColor(Dungeon[x, y]);
+                painter.fillColor = Dungeon[x, y].TileColor;
                 painter.BeginPath();
                 painter.MoveTo(rect.min);
                 painter.LineTo(new Vector2(rect.xMax, rect.yMin));
@@ -73,17 +73,6 @@ public class DungeonView : VisualElement
                 painter.Stroke();
             }
         }
-    }
-
-    private Color GetTileColor(DungeonTile tile)
-    {
-        return tile switch
-        {
-            DungeonTile.Empty => new Color(0.15f, 0.15f, 0.15f),
-            DungeonTile.Hallway => new Color(0.8f, 0.8f, 0.8f),
-            DungeonTile.Room => new Color(0.8f, 0f, 0f),
-            _ => Color.magenta
-        };
     }
 
     private void OnWheel(WheelEvent wheelEvent)

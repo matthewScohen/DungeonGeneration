@@ -5,20 +5,30 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Dungeon/Dungeon Random Room With Paths Strategy")]
 public class RandomRoomsWithPaths : DungeonRandomRoomStrategy
 {
-    [SerializeField] private float WallTileCost = 1f;
+    [SerializeField] private string HallwayTileName = "Hallway";
+
+    [Header("Tile Costs")]
+    [SerializeField] private float EmptyTileCost = 1f;
     [SerializeField] private float HallwayTileCost = 1f;
     [SerializeField] private float RoomTileCost = 1f;
     [SerializeField] private float MaxRandomAddedCost = 0f;
 
+    private DungeonTile roomTile;
+    private DungeonTile hallwayTile;
+
     public override Dungeon Generate(int seed)
     {
-        Dungeon dungeon = new(DungeonWdith, DungeonHeight);
+        Dungeon dungeon = new(DungeonWdith, DungeonHeight, TileSet);
+
+        roomTile = FindAndValidateTileByName(RoomTileName);
+        hallwayTile = FindAndValidateTileByName(HallwayTileName);
+
         DungeonGenerationContext context = new(dungeon, seed);
 
-        List<Vector2Int> roomCenters = PlaceRandomRooms(context);
+        List<Vector2Int> roomCenters = PlaceRandomRooms(context, roomTile);
 
-        ManhattanHeuristic manhattanHeuristic = new(minimumMoveCost: Mathf.Min(WallTileCost, HallwayTileCost, RoomTileCost));
-        TileCosts baseMovementCost = new(WallTileCost, HallwayTileCost, RoomTileCost);
+        ManhattanHeuristic manhattanHeuristic = new(minimumMoveCost: Mathf.Min(EmptyTileCost, HallwayTileCost, RoomTileCost));
+        TileCosts baseMovementCost = new(EmptyTileCost, HallwayTileCost, RoomTileCost);
         RandomizedCostFunction randomMovementCost = new(baseMovementCost, MaxRandomAddedCost);
 
         List<Triangle> triangulation = DelaunayTriangulation.Triangulate(roomCenters);
@@ -38,7 +48,7 @@ public class RandomRoomsWithPaths : DungeonRandomRoomStrategy
         List<Vector2Int> path = path_creator.GeneratePath(start, goal);
 
         foreach(Vector2Int pathCell in path)
-            dungeon[pathCell] = dungeon[pathCell] == DungeonTile.Room ? DungeonTile.Room : DungeonTile.Hallway;
+            dungeon[pathCell] = dungeon[pathCell] == roomTile ? roomTile : hallwayTile;
     }
 
     private void CreatePath(Dungeon dungeon, Vector2 start, Vector2 goal, IAStarGridHeuristic heuristic, IAStarMovementCost movementCost)

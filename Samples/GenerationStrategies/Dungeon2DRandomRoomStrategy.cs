@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(menuName = "Dungeon/Dungeon Random Room Strategy")]
 public class DungeonRandomRoomStrategy : DungeonGenerationStrategy
@@ -13,17 +14,22 @@ public class DungeonRandomRoomStrategy : DungeonGenerationStrategy
     [SerializeField] protected int MaxRoomHeight = 10;
     [SerializeField] protected int Border = 1;
 
+    [Header("Tile Names")]
+    [SerializeField] protected string RoomTileName = "Room";
+
     public override Dungeon Generate(int seed)
     {
-        Dungeon dungeon = new(DungeonWdith, DungeonHeight);
+        Dungeon dungeon = new(DungeonWdith, DungeonHeight, TileSet);
         DungeonGenerationContext context = new(dungeon, seed);
 
-        PlaceRandomRooms(context);
+        DungeonTile roomTile = FindAndValidateTileByName(RoomTileName);
+
+        PlaceRandomRooms(context, roomTile);
 
         return dungeon;
     }
 
-    protected List<Vector2Int> PlaceRandomRooms(DungeonGenerationContext context)
+    protected List<Vector2Int> PlaceRandomRooms(DungeonGenerationContext context, DungeonTile roomTile)
     {
         List<Vector2Int> RoomCenters = new();
 
@@ -37,7 +43,7 @@ public class DungeonRandomRoomStrategy : DungeonGenerationStrategy
             // Need to check an additional area of 2 * border because padding must be on both sides of the room
             if(context.AreaContainsOnly(DungeonTile.Empty, x - Border, y - Border, roomWidth + 2 * Border, roomHeight + 2 * Border))
             {
-                context.SetAreaToTile(DungeonTile.Room, x, y, roomWidth, roomHeight);
+                context.SetAreaToTile(roomTile, x, y, roomWidth, roomHeight);
                 RoomCenters.Add(new(x + roomWidth / 2, y + roomHeight / 2));
             }
         }

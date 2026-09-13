@@ -1,0 +1,16 @@
+{
+    "name": "DungeonGeneration.Samples",
+    "rootNamespace": "",
+    "references": [
+        "GUID:93ef824397b2c5a4885a5a494f7bc457"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
