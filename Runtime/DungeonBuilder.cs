@@ -7,6 +7,7 @@ public class DungeonBuilder : MonoBehaviour
     [SerializeField] private List<DungeonTilePieceMapping> DungeonTilePieceMapping;
     [SerializeField] private DungeonObject DungeonObject;
     [SerializeField] private float TileSize = 10f;
+    [SerializeField] private Vector3 DungeonScale = new(1f, 1f, 1f);
     
     private readonly Dictionary<DungeonTile, DungeonPiece> DungeonPieces = new();
     private Dungeon Dungeon => DungeonObject.Dungeon ?? null;
@@ -44,8 +45,9 @@ public class DungeonBuilder : MonoBehaviour
                 }
 
                 // North = Z+ axis, East = X+ axis, South = Z- axis, West = X- axis
-                Vector3 position = new(x * TileSize, 0, y * TileSize);
+                Vector3 position = new(x * TileSize * DungeonScale.x, 0, y * TileSize * DungeonScale.z);
                 DungeonPiece instance = Instantiate(prefab, position, Quaternion.identity, transform);
+                instance.transform.localScale = new Vector3(DungeonScale.x, DungeonScale.y, DungeonScale.z);
 
                 // Set sides of prefab to open/closed depending on its adjacent tiles
                 DungeonTile[] neighbors = new DungeonTile[4];
