@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Dungeon/Dungeon 2D")]
+[CreateAssetMenu(menuName = "Dungeon/Dungeon Generator")]
 public class DungeonGenerator : ScriptableObject
 {
     [HideInInspector] public DungeonObject DungeonObject;
