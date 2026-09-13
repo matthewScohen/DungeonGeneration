@@ -20,8 +20,11 @@ public class DungeonTileSet : ScriptableObject
 
     private void OnEnable()
     {
-        Tiles.Add(DungeonTile.Invalid);
-        Tiles.Add(DungeonTile.Empty);
+        if(Tiles.Count < 2)
+        {
+            Tiles.Add(DungeonTile.Invalid);
+            Tiles.Add(DungeonTile.Empty);
+        }
     }
 }
 
