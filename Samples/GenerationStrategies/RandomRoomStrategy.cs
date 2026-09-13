@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(menuName = "Dungeon/Dungeon Random Room Strategy")]
-public class DungeonRandomRoomStrategy : DungeonGenerationStrategy
+public class RandomRoomStrategy : DungeonGenerationStrategy
 {
     [SerializeField] protected int NumberOfRoomsToAttempt = 5;
     [SerializeField] protected int DungeonWdith = 50;
@@ -22,7 +21,7 @@ public class DungeonRandomRoomStrategy : DungeonGenerationStrategy
         Dungeon dungeon = new(DungeonWdith, DungeonHeight, TileSet);
         DungeonGenerationContext context = new(dungeon, seed);
 
-        DungeonTile roomTile = FindAndValidateTileByName(RoomTileName);
+        DungeonTile roomTile = FindTileByName(RoomTileName);
 
         PlaceRandomRooms(context, roomTile);
 

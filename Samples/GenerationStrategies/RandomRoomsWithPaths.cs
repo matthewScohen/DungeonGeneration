@@ -3,7 +3,7 @@ using System.Drawing;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Dungeon/Dungeon Random Room With Paths Strategy")]
-public class RandomRoomsWithPaths : DungeonRandomRoomStrategy
+public class RandomRoomsWithPaths : RandomRoomStrategy
 {
     [SerializeField] private string HallwayTileName = "Hallway";
 
@@ -20,8 +20,8 @@ public class RandomRoomsWithPaths : DungeonRandomRoomStrategy
     {
         Dungeon dungeon = new(DungeonWdith, DungeonHeight, TileSet);
 
-        roomTile = FindAndValidateTileByName(RoomTileName);
-        hallwayTile = FindAndValidateTileByName(HallwayTileName);
+        roomTile = FindTileByName(RoomTileName);
+        hallwayTile = FindTileByName(HallwayTileName);
 
         DungeonGenerationContext context = new(dungeon, seed);
 

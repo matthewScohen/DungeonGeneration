@@ -6,7 +6,7 @@ public abstract class DungeonGenerationStrategy : ScriptableObject
     
     public abstract Dungeon Generate(int seed);
 
-    protected DungeonTile FindAndValidateTileByName(string TileName)
+    protected DungeonTile FindTileByName(string TileName)
     {
         DungeonTile locatedTile = TileSet.FindTileByName(TileName);
         if(locatedTile == DungeonTile.Invalid)
