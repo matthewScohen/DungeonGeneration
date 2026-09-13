@@ -9,7 +9,7 @@ public class DungeonBuilder : MonoBehaviour
     [SerializeField] private float TileSize = 10f;
     [SerializeField] private Vector3 DungeonScale = new(1f, 1f, 1f);
     
-    private readonly Dictionary<DungeonTile, DungeonPiece> DungeonPieces = new();
+    private readonly Dictionary<string, DungeonPiece> DungeonPieces = new();
     private Dungeon Dungeon => DungeonObject.Dungeon ?? null;
 
     private void Awake()
@@ -33,7 +33,7 @@ public class DungeonBuilder : MonoBehaviour
                 if(tile == DungeonTile.Invalid || tile == DungeonTile.Empty)
                     continue;
 
-                if(!DungeonPieces.TryGetValue(tile, out DungeonPiece prefab))
+                if(!DungeonPieces.TryGetValue(tile.TileName, out DungeonPiece prefab))
                 {
                     Debug.LogWarning($"No prefab found for tile {tile}");
                     continue;
@@ -61,25 +61,25 @@ public class DungeonBuilder : MonoBehaviour
     {
         foreach(DungeonTilePieceMapping mapping in DungeonTilePieceMapping)
         {
-            if(mapping.prefab == null && !(mapping.tile == DungeonTile.Invalid || mapping.tile == DungeonTile.Empty))
+            if(mapping.prefab == null && !(mapping.tileName == DungeonTile.Invalid.TileName || mapping.tileName == DungeonTile.Empty.TileName))
             {
-                Debug.LogWarning($"Missing prefab for tile {mapping.tile}");
+                Debug.LogWarning($"Missing prefab for tile with name {mapping.tileName}");
                 continue;
             }
 
-            if(!DungeonPieces.ContainsKey(mapping.tile))
+            if(!DungeonPieces.ContainsKey(mapping.tileName))
             {
                 Debug.Assert(mapping.prefab.GetComponent<DungeonPiece>() != null, $"{mapping.prefab} is needs DungeonPiece component to be used in DungeonBuilder");
-                DungeonPieces[mapping.tile] = mapping.prefab;
+                DungeonPieces[mapping.tileName] = mapping.prefab;
             }
             else
-                Debug.LogWarning($"Found two prefabs that map to tile {mapping.tile}");
+                Debug.LogWarning($"Found two prefabs that map to tile with tile name {mapping.tileName}");
         }
     }
 }
 
 [Serializable] public struct DungeonTilePieceMapping
 {
-    public DungeonTile tile;
+    public string tileName;
     public DungeonPiece prefab;
 }

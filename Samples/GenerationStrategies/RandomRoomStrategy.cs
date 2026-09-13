@@ -18,7 +18,7 @@ public class RandomRoomStrategy : DungeonGenerationStrategy
 
     public override Dungeon Generate(int seed)
     {
-        Dungeon dungeon = new(DungeonWdith, DungeonHeight, TileSet);
+        Dungeon dungeon = new(DungeonWdith, DungeonHeight);
         DungeonGenerationContext context = new(dungeon, seed);
 
         DungeonTile roomTile = FindTileByName(RoomTileName);

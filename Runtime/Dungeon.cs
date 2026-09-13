@@ -8,10 +8,10 @@ public class Dungeon
     public int Height => height;
 
     [SerializeField] [HideInInspector] private DungeonTile[] tileMap;
-    private readonly int width = 10;
-    private readonly int height = 10;
+    private int width = 10;
+    private int height = 10;
 
-    public Dungeon(int width, int height, DungeonTileSet tileSet)
+    public Dungeon(int width, int height)
     {
         this.width = Mathf.Max(1, width);
         this.height = Mathf.Max(1, height);

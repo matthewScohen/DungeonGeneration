@@ -18,7 +18,7 @@ public class RandomRoomsWithPaths : RandomRoomStrategy
 
     public override Dungeon Generate(int seed)
     {
-        Dungeon dungeon = new(DungeonWdith, DungeonHeight, TileSet);
+        Dungeon dungeon = new(DungeonWdith, DungeonHeight);
 
         roomTile = FindTileByName(RoomTileName);
         hallwayTile = FindTileByName(HallwayTileName);
