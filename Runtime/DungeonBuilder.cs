@@ -17,12 +17,7 @@ public class DungeonBuilder : MonoBehaviour
         InitializeDungeonPieces();
     }
 
-    private void Start()
-    {
-        BuildDungeon();
-    }
-
-    private void BuildDungeon()
+    public void BuildDungeon()
     {
         if(Dungeon == null)
         {
