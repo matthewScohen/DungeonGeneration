@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class DungeonBuilder : MonoBehaviour
 {
+    [SerializeField] public DungeonObject DungeonObject;
     [SerializeField] private List<DungeonTilePieceMapping> DungeonTilePieceMapping;
-    [SerializeField] private DungeonObject DungeonObject;
     [SerializeField] private float TileSize = 10f;
     [SerializeField] private Vector3 DungeonScale = new(1f, 1f, 1f);
     
