@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Dungeon/Dungeon Random Room Strategy")]
+[CreateAssetMenu(menuName = "Dungeon/GenerationStrategy/Dungeon Random Room Strategy")]
 public class RandomRoomStrategy : DungeonGenerationStrategy
 {
     [SerializeField] protected int NumberOfRoomsToAttempt = 5;

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Dungeon/Dungeon Random Room With Paths Strategy")]
+[CreateAssetMenu(menuName = "Dungeon/GenerationStrategy/Dungeon Random Room With Paths Strategy")]
 public class RandomRoomsWithPaths : RandomRoomStrategy
 {
     [SerializeField] private string HallwayTileName = "Hallway";

@@ -11,7 +11,7 @@ public abstract class DungeonGenerationStrategy : ScriptableObject
         DungeonTile locatedTile = TileSet.FindTileByName(TileName);
         if(locatedTile == DungeonTile.Invalid)
         {
-            Debug.LogWarning("No tile with name \"Room\" found in tileset");
+            Debug.LogWarning($"No tile with name \"{TileName}\" found in tileset");
             return DungeonTile.Invalid;
         }
         
